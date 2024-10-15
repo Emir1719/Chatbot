@@ -1,3 +1,5 @@
+import 'package:chatbot/features/chat/presentation/widgets/chat/chat_list_view.dart';
+import 'package:chatbot/features/chat/presentation/widgets/chat/chat_message_area.dart';
 import 'package:flutter/material.dart';
 
 class ChatView extends StatelessWidget {
@@ -7,8 +9,11 @@ class ChatView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Chatbot")),
-      body: const Center(
-        child: Text('Hello World!'),
+      body: const Column(
+        children: [
+          ChatListView(),
+          ChatMessageArea(),
+        ],
       ),
     );
   }
