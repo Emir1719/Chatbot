@@ -1,4 +1,5 @@
 import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:chatbot/features/chat/presentation/bloc/message_cubit/message_cubit.dart';
 import 'package:chatbot/features/chat/presentation/pages/chat/chat_view.dart';
 import 'package:chatbot/util/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ChatBloc()),
+        BlocProvider(create: (context) => MessageCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

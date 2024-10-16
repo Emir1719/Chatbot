@@ -1,4 +1,4 @@
-import 'package:chatbot/features/chat/presentation/widgets/chat/chat_list_view.dart';
+import 'package:chatbot/features/chat/presentation/widgets/chat/chat_list_view_builder.dart';
 import 'package:chatbot/features/chat/presentation/widgets/chat/chat_message_area.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class ChatView extends StatelessWidget {
       appBar: AppBar(title: const Text("Chatbot")),
       body: const Column(
         children: [
-          ChatListView(),
+          ChatListViewBuilder(),
           ChatMessageArea(),
         ],
       ),

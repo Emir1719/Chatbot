@@ -26,10 +26,6 @@ final class AppTheme {
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       hintStyle: _textTheme().bodyMedium,
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.black),
         borderRadius: BorderRadius.all(Radius.circular(10)),
