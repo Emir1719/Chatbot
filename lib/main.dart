@@ -1,4 +1,5 @@
 import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
 import 'package:chatbot/features/chat/presentation/bloc/message_cubit/message_cubit.dart';
 import 'package:chatbot/features/chat/presentation/pages/chat/chat_view.dart';
 import 'package:chatbot/util/app_theme.dart';
@@ -18,6 +19,7 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => ChatBloc()),
         BlocProvider(create: (context) => MessageCubit()),
+        BlocProvider(create: (context) => ConversationBloc()..add(LoadConversationsEvent())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
