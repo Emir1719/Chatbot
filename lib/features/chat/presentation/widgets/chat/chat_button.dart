@@ -17,7 +17,7 @@ class ChatButton extends StatelessWidget {
                 ? null
                 : () {
                     context.read<ChatBloc>().add(UserMessageEvent(message: message));
-                    context.read<MessageCubit>().updateMessage("");
+                    context.read<MessageCubit>().clearMessage();
                   },
             icon: const Icon(Icons.send_rounded),
           ),

@@ -8,14 +8,18 @@ class ChatTextForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final messageCubit = context.read<MessageCubit>();
+
     return Expanded(
       child: TextFormField(
+        controller: messageCubit.controller,
         decoration: const InputDecoration(
           labelText: "Message",
           hintText: "message...",
         ),
+        maxLength: 300,
         style: context.textTheme.bodyMedium,
-        onChanged: (value) => context.read<MessageCubit>().updateMessage(value),
+        onChanged: (value) => messageCubit.updateMessage(value),
       ),
     );
   }
