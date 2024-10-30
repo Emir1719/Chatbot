@@ -5,16 +5,19 @@ class ConversationTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(15),
+    return Padding(
+      padding: const EdgeInsets.all(15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+          const Text(
             "Konuşmalar",
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
           ),
-          Icon(Icons.add_circle_outline_rounded),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.add_circle_outline_rounded),
+          ),
         ],
       ),
     );

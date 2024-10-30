@@ -31,11 +31,14 @@ final class AppTheme {
 
     return InputDecorationTheme(
       border: border,
+      disabledBorder: border,
       fillColor: Colors.white,
       filled: true,
+      outlineBorder: BorderSide.none,
       hintStyle: _textTheme().bodyMedium,
       focusedBorder: border,
       enabledBorder: border,
+      errorBorder: border,
       labelStyle: _textTheme().bodyLarge,
     );
   }

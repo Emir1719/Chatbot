@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:chatbot/features/chat/data/datasources/chat_service.dart';
 import 'package:chatbot/features/chat/data/models/chat_message.dart';
+import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'chat_event.dart';
@@ -11,9 +12,10 @@ part 'chat_state.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   List<ChatMessage>? _chats = [];
   final _service = ChatService();
-  int currentConvId = 0;
+  int? currentConvId;
+  final ConversationBloc conversationBloc;
 
-  ChatBloc() : super(ChatInitial()) {
+  ChatBloc(this.conversationBloc) : super(ChatInitial()) {
     on<UserMessageEvent>(_userMessage);
     on<ChatLoadEvent>(_load);
   }
@@ -22,8 +24,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emit(ChatLoaded(chats: _chats, isLoading: true));
 
     try {
-      await _service.saveChatByConversationId(currentConvId, event.message);
-      _chats = await _service.getChatsByConvId(currentConvId);
+      // Yeni sohbet başladıysa konuşmayı otomatik oluştur
+      if (currentConvId == null) {
+        final conv = await _service.createConversation();
+        currentConvId = conv.id;
+
+        conversationBloc.add(AddConversationsEvent(convId: conv.id));
+      }
+
+      await _service.saveChatByConversationId(currentConvId!, event.message);
+      _chats = await _service.getChatsByConvId(currentConvId!);
 
       emit(ChatLoaded(chats: _chats, isLoading: false));
     } catch (e) {

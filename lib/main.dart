@@ -17,9 +17,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ChatBloc()),
-        BlocProvider(create: (context) => MessageCubit()),
         BlocProvider(create: (context) => ConversationBloc()..add(LoadConversationsEvent())),
+        BlocProvider(create: (context) => ChatBloc(context.read<ConversationBloc>())),
+        BlocProvider(create: (context) => MessageCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

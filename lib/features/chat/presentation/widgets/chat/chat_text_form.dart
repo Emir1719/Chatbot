@@ -15,9 +15,6 @@ class ChatTextForm extends StatelessWidget {
         controller: messageCubit.controller,
         decoration: const InputDecoration(
           hintText: "message...",
-          enabledBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
         ),
         style: context.textTheme.bodyMedium,
         onChanged: (value) => messageCubit.updateMessage(value),

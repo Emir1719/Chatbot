@@ -44,8 +44,19 @@ class ChatService {
     await _dio.put("/conversations/update", data: conv.toMap());
   }
 
-  Future createConversation() async {
-    await _dio.post("/conversations/create");
+  Future<Conversation> createConversation() async {
+    try {
+      final response = await _dio.post("/conversations/create");
+      int? convId = response.data["data"]["id"];
+
+      if (convId != null) {
+        final conv = Conversation(id: convId, title: "Yeni");
+        return conv;
+      }
+      throw Exception("Conversation null geldi");
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future saveChatByConversationId(int convId, String message) async {
