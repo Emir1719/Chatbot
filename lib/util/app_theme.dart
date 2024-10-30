@@ -10,6 +10,10 @@ final class AppTheme {
   static ThemeData get light => ThemeData(
         textTheme: _textTheme(),
         scaffoldBackgroundColor: Colors.white,
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+        ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           titleTextStyle: _textTheme().titleLarge,
@@ -20,16 +24,18 @@ final class AppTheme {
       );
 
   static InputDecorationTheme _inputDecorationTheme() {
+    const border = OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    );
+
     return InputDecorationTheme(
-      border: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
+      border: border,
+      fillColor: Colors.white,
+      filled: true,
       hintStyle: _textTheme().bodyMedium,
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
+      focusedBorder: border,
+      enabledBorder: border,
       labelStyle: _textTheme().bodyLarge,
     );
   }

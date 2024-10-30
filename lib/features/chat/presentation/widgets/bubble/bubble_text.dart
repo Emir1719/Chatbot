@@ -1,24 +1,38 @@
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
-import 'package:chatbot/features/chat/data/models/chat.dart';
-import 'package:chatbot/features/chat/data/models/sender.dart';
+import 'package:chatbot/features/chat/data/models/chat_message.dart';
 import 'package:chatbot/util/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class BubbleText extends StatelessWidget {
   const BubbleText({super.key, required this.chat});
-  final Chat chat;
+  final ChatMessage? chat;
 
   @override
   Widget build(BuildContext context) {
-    return BubbleSpecialThree(
-      text: chat.message,
-      color: const Color(0xFF1B97F3),
-      tail: true,
-      isSender: chat.sender == Sender.user,
-      textStyle: context.textTheme.bodyMedium!.copyWith(
-        color: Colors.white,
-        overflow: TextOverflow.fade,
-      ),
+    return Column(
+      children: [
+        BubbleSpecialThree(
+          text: chat?.userMessage ?? "",
+          color: const Color(0xFF1B97F3),
+          tail: true,
+          isSender: true,
+          textStyle: context.textTheme.bodyMedium!.copyWith(
+            color: Colors.white,
+            overflow: TextOverflow.fade,
+          ),
+        ),
+        const SizedBox(height: 10),
+        BubbleSpecialThree(
+          text: chat?.modelMessage ?? "",
+          color: const Color(0xFF1B97F3),
+          tail: true,
+          isSender: false,
+          textStyle: context.textTheme.bodyMedium!.copyWith(
+            color: Colors.white,
+            overflow: TextOverflow.fade,
+          ),
+        ),
+      ],
     );
   }
 }

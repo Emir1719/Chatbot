@@ -21,11 +21,11 @@ class ChatError extends ChatState {
 }
 
 class ChatLoaded extends ChatState {
-  final List<Chat> chats;
+  final List<ChatMessage>? chats;
   final bool isLoading;
 
   const ChatLoaded({required this.chats, this.isLoading = false});
 
   @override
-  List<Object> get props => [chats, isLoading];
+  List<Object> get props => [chats ?? [], isLoading];
 }

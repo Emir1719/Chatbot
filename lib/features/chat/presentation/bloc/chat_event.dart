@@ -12,4 +12,16 @@ class UserMessageEvent extends ChatEvent {
   final String message;
 
   const UserMessageEvent({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+class ChatLoadEvent extends ChatEvent {
+  final int convId;
+
+  const ChatLoadEvent({required this.convId});
+
+  @override
+  List<Object> get props => [convId];
 }

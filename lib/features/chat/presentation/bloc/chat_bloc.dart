@@ -1,39 +1,44 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:chatbot/features/chat/data/datasources/gemini_service.dart';
-import 'package:chatbot/features/chat/data/models/chat.dart';
-import 'package:chatbot/features/chat/data/models/sender.dart';
+import 'package:chatbot/features/chat/data/datasources/chat_service.dart';
+import 'package:chatbot/features/chat/data/models/chat_message.dart';
 import 'package:equatable/equatable.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  final _model = GeminiService();
-  final List<Chat> _chats = [];
+  List<ChatMessage>? _chats = [];
+  final _service = ChatService();
+  int currentConvId = 0;
 
   ChatBloc() : super(ChatInitial()) {
     on<UserMessageEvent>(_userMessage);
+    on<ChatLoadEvent>(_load);
   }
 
   Future<void> _userMessage(UserMessageEvent event, emit) async {
-    //emit(ChatLoading());
     emit(ChatLoaded(chats: _chats, isLoading: true));
 
     try {
-      // Kullanıcının mesajı modele aktarılır
-      final userChat = Chat(sender: Sender.user, message: event.message.trim());
-      _chats.add(userChat);
-
-      // Chatbot'un mesajı modele aktarılır
-      final response = await _model.message(userChat.message);
-      final chat = Chat(sender: Sender.model, message: response ?? "Hata");
-      _chats.add(chat);
+      await _service.saveChatByConversationId(currentConvId, event.message);
+      _chats = await _service.getChatsByConvId(currentConvId);
 
       emit(ChatLoaded(chats: _chats, isLoading: false));
     } catch (e) {
-      print("hata: $e");
+      emit(ChatError(message: e.toString()));
+    }
+  }
+
+  Future<void> _load(ChatLoadEvent event, Emitter<ChatState> emit) async {
+    emit(const ChatLoaded(chats: [], isLoading: true));
+
+    try {
+      currentConvId = event.convId;
+      _chats = await _service.getChatsByConvId(event.convId);
+      emit(ChatLoaded(chats: _chats, isLoading: false));
+    } catch (e) {
       emit(ChatError(message: e.toString()));
     }
   }

@@ -14,10 +14,11 @@ class ChatTextForm extends StatelessWidget {
       child: TextFormField(
         controller: messageCubit.controller,
         decoration: const InputDecoration(
-          labelText: "Message",
           hintText: "message...",
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
         ),
-        maxLength: 300,
         style: context.textTheme.bodyMedium,
         onChanged: (value) => messageCubit.updateMessage(value),
       ),
