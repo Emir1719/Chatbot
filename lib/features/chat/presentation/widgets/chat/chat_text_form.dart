@@ -16,7 +16,7 @@ class ChatTextForm extends StatelessWidget {
         decoration: const InputDecoration(
           hintText: "message...",
         ),
-        style: context.textTheme.bodyMedium,
+        style: context.text.bodyMedium,
         onChanged: (value) => messageCubit.updateMessage(value),
       ),
     );

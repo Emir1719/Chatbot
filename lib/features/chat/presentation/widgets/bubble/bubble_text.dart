@@ -16,8 +16,8 @@ class BubbleText extends StatelessWidget {
           color: const Color(0xFF1B97F3),
           tail: true,
           isSender: true,
-          textStyle: context.textTheme.bodyMedium!.copyWith(
-            color: Colors.white,
+          textStyle: context.text.bodyMedium!.copyWith(
+            color: context.color.surface,
             overflow: TextOverflow.fade,
           ),
         ),
@@ -27,8 +27,8 @@ class BubbleText extends StatelessWidget {
           color: const Color(0xFF1B97F3),
           tail: true,
           isSender: false,
-          textStyle: context.textTheme.bodyMedium!.copyWith(
-            color: Colors.white,
+          textStyle: context.text.bodyMedium!.copyWith(
+            color: context.color.surface,
             overflow: TextOverflow.fade,
           ),
         ),

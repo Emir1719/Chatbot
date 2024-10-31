@@ -1,4 +1,5 @@
 import 'package:chatbot/features/chat/presentation/bloc/message_cubit/message_cubit.dart';
+import 'package:chatbot/util/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,9 +14,9 @@ class ChatCameraSendButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: IconButton(
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.camera_alt_outlined,
-              color: Colors.blue,
+              color: context.color.secondary,
             ),
           ),
         );

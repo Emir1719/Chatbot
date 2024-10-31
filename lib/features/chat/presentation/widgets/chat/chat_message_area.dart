@@ -12,9 +12,7 @@ class ChatMessageArea extends StatelessWidget {
     return Container(
       width: context.width(),
       padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-      ),
+      decoration: BoxDecoration(color: context.color.primaryContainer),
       child: const Row(
         children: [
           ChatTextForm(),

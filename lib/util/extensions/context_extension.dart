@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 extension ContextExtension on BuildContext {
   // theme
-  TextTheme get textTheme => Theme.of(this).textTheme;
+  TextTheme get text => Theme.of(this).textTheme;
   ColorScheme get color => Theme.of(this).colorScheme;
 
   // size

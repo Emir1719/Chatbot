@@ -2,6 +2,7 @@ import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
 import 'package:chatbot/features/chat/presentation/bloc/message_cubit/message_cubit.dart';
 import 'package:chatbot/features/chat/presentation/pages/chat/chat_view.dart';
+import 'package:chatbot/util/app_color_scheme.dart';
 import 'package:chatbot/util/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,9 @@ class MainApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.light,
+        theme: AppTheme.theme(AppColorScheme.light),
+        darkTheme: AppTheme.theme(AppColorScheme.dark),
+        themeMode: ThemeMode.dark,
         home: const ChatView(),
       ),
     );

@@ -1,41 +1,47 @@
 import 'package:flutter/material.dart';
 
+/// Singleton deseni uygulanmış tema sınıfı
 final class AppTheme {
   static final _instance = AppTheme._();
-
   AppTheme._();
-
   factory AppTheme() => _instance;
 
-  static ThemeData get light => ThemeData(
-        textTheme: _textTheme(),
-        colorScheme: _colorScheme(),
-        scaffoldBackgroundColor: Colors.white,
-        drawerTheme: const DrawerThemeData(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
-        ),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.white,
-          titleTextStyle: _textTheme().titleLarge,
-          centerTitle: true,
-        ),
-        inputDecorationTheme: _inputDecorationTheme(),
-        popupMenuTheme: const PopupMenuThemeData(
-          color: Colors.white,
-        ),
-      );
+  static ThemeData theme(ColorScheme colorScheme) {
+    final TextTheme textTheme = _textTheme(colorScheme);
 
-  static ColorScheme _colorScheme() {
-    return const ColorScheme.light(
-      onPrimary: Colors.white,
-      tertiary: Colors.black,
-      surface: Colors.white,
-      secondary: Colors.blue,
+    return ThemeData(
+      textTheme: textTheme,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.surface,
+      drawerTheme: _drawerTheme(colorScheme),
+      appBarTheme: _appBarTheme(colorScheme, textTheme),
+      inputDecorationTheme: _inputDecorationTheme(colorScheme, textTheme),
+      popupMenuTheme: _popupMenuTheme(colorScheme),
     );
   }
 
-  static InputDecorationTheme _inputDecorationTheme() {
+  static PopupMenuThemeData _popupMenuTheme(ColorScheme colorScheme) {
+    return PopupMenuThemeData(
+      color: colorScheme.surface,
+    );
+  }
+
+  static AppBarTheme _appBarTheme(ColorScheme colorScheme, TextTheme textTheme) {
+    return AppBarTheme(
+      backgroundColor: colorScheme.surface,
+      titleTextStyle: textTheme.titleLarge,
+      centerTitle: true,
+    );
+  }
+
+  static DrawerThemeData _drawerTheme(ColorScheme colorScheme) {
+    return DrawerThemeData(
+      backgroundColor: colorScheme.surface,
+      surfaceTintColor: colorScheme.surface,
+    );
+  }
+
+  static InputDecorationTheme _inputDecorationTheme(ColorScheme colorScheme, TextTheme textTheme) {
     const border = OutlineInputBorder(
       borderSide: BorderSide.none,
       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -44,26 +50,26 @@ final class AppTheme {
     return InputDecorationTheme(
       border: border,
       disabledBorder: border,
-      fillColor: Colors.white,
+      fillColor: colorScheme.surface,
       filled: true,
       outlineBorder: BorderSide.none,
-      hintStyle: _textTheme().bodyMedium,
+      hintStyle: textTheme.bodyMedium,
       focusedBorder: border,
       enabledBorder: border,
       errorBorder: border,
-      labelStyle: _textTheme().bodyLarge,
+      labelStyle: textTheme.bodyLarge,
     );
   }
 
-  static TextTheme _textTheme() {
+  static TextTheme _textTheme(ColorScheme colorScheme) {
     final base = TextStyle(
       fontSize: 16,
       overflow: TextOverflow.ellipsis,
-      color: _colorScheme().tertiary,
+      color: colorScheme.tertiary,
     );
 
     return TextTheme(
-      bodyLarge: base.copyWith(fontSize: 18),
+      bodyLarge: base.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
       bodyMedium: base,
       bodySmall: base.copyWith(fontSize: 14),
       titleLarge: base.copyWith(fontSize: 20, fontWeight: FontWeight.w500),
