@@ -1,4 +1,6 @@
+import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConversationTitle extends StatelessWidget {
   const ConversationTitle({super.key});
@@ -15,7 +17,9 @@ class ConversationTitle extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<ConversationBloc>().add(CreateConversationsEvent());
+            },
             icon: const Icon(Icons.add_circle_outline_rounded),
           ),
         ],

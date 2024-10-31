@@ -25,3 +25,6 @@ class ChatLoadEvent extends ChatEvent {
   @override
   List<Object> get props => [convId];
 }
+
+/// Ana ekranı init durumuna döndürür
+class ChatRestart extends ChatEvent {}

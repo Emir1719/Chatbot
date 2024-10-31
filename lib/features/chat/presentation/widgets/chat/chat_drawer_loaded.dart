@@ -21,7 +21,7 @@ class ChatDrawerLoaded extends StatelessWidget {
               context.read<ChatBloc>().add(ChatLoadEvent(convId: data.id));
               if (Navigator.canPop(context)) Navigator.pop(context);
             },
-            trailing: const ConversationPopupButton(),
+            trailing: ConversationPopupButton(convId: data.id),
             title: Text(data.title),
           );
         },

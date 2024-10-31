@@ -9,6 +9,7 @@ final class AppTheme {
 
   static ThemeData get light => ThemeData(
         textTheme: _textTheme(),
+        colorScheme: _colorScheme(),
         scaffoldBackgroundColor: Colors.white,
         drawerTheme: const DrawerThemeData(
           backgroundColor: Colors.white,
@@ -19,9 +20,20 @@ final class AppTheme {
           titleTextStyle: _textTheme().titleLarge,
           centerTitle: true,
         ),
-        primaryColor: Colors.deepOrange,
         inputDecorationTheme: _inputDecorationTheme(),
+        popupMenuTheme: const PopupMenuThemeData(
+          color: Colors.white,
+        ),
       );
+
+  static ColorScheme _colorScheme() {
+    return const ColorScheme.light(
+      onPrimary: Colors.white,
+      tertiary: Colors.black,
+      surface: Colors.white,
+      secondary: Colors.blue,
+    );
+  }
 
   static InputDecorationTheme _inputDecorationTheme() {
     const border = OutlineInputBorder(
@@ -44,10 +56,10 @@ final class AppTheme {
   }
 
   static TextTheme _textTheme() {
-    const base = TextStyle(
+    final base = TextStyle(
       fontSize: 16,
       overflow: TextOverflow.ellipsis,
-      color: Colors.black,
+      color: _colorScheme().tertiary,
     );
 
     return TextTheme(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 extension ContextExtension on BuildContext {
   // theme
   TextTheme get textTheme => Theme.of(this).textTheme;
+  ColorScheme get color => Theme.of(this).colorScheme;
 
   // size
   Size get size => MediaQuery.of(this).size;

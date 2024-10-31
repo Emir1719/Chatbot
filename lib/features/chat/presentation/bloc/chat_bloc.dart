@@ -18,6 +18,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc(this.conversationBloc) : super(ChatInitial()) {
     on<UserMessageEvent>(_userMessage);
     on<ChatLoadEvent>(_load);
+    on<ChatRestart>(_restart);
   }
 
   Future<void> _userMessage(UserMessageEvent event, emit) async {
@@ -51,5 +52,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     } catch (e) {
       emit(ChatError(message: e.toString()));
     }
+  }
+
+  FutureOr<void> _restart(ChatRestart event, Emitter<ChatState> emit) {
+    emit(ChatInitial());
   }
 }
