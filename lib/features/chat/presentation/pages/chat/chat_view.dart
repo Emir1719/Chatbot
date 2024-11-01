@@ -1,6 +1,7 @@
 import 'package:chatbot/features/chat/presentation/widgets/chat/chat_drawer.dart';
 import 'package:chatbot/features/chat/presentation/widgets/chat/chat_list_view_builder.dart';
 import 'package:chatbot/features/chat/presentation/widgets/chat/chat_message_area.dart';
+import 'package:chatbot/features/chat/presentation/widgets/chat/theme_change_button.dart';
 import 'package:flutter/material.dart';
 
 class ChatView extends StatelessWidget {
@@ -9,7 +10,10 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Chatbot")),
+      appBar: AppBar(
+        title: const Text("Chatbot"),
+        actions: [ThemeChangeButton()],
+      ),
       drawer: const ChatDrawer(),
       body: const Column(
         children: [

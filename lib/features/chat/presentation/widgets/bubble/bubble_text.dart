@@ -13,7 +13,7 @@ class BubbleText extends StatelessWidget {
       children: [
         BubbleSpecialThree(
           text: chat?.userMessage ?? "",
-          color: const Color(0xFF1B97F3),
+          color: context.color.secondary,
           tail: true,
           isSender: true,
           textStyle: context.text.bodyMedium!.copyWith(
@@ -24,7 +24,7 @@ class BubbleText extends StatelessWidget {
         const SizedBox(height: 10),
         BubbleSpecialThree(
           text: chat?.modelMessage ?? "",
-          color: const Color(0xFF1B97F3),
+          color: context.color.secondary,
           tail: true,
           isSender: false,
           textStyle: context.text.bodyMedium!.copyWith(

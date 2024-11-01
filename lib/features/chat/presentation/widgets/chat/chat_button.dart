@@ -12,14 +12,9 @@ class ChatButton extends StatelessWidget {
     return BlocBuilder<MessageCubit, String>(
       builder: (context, message) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           child: IconButton(
-            onPressed: message.isEmpty
-                ? null
-                : () {
-                    context.read<ChatBloc>().add(UserMessageEvent(message: message));
-                    context.read<MessageCubit>().clearMessage();
-                  },
+            onPressed: _onPressed(message, context),
             icon: Icon(
               Icons.send_rounded,
               color: message.isEmpty ? context.color.shadow : context.color.secondary,
@@ -28,5 +23,14 @@ class ChatButton extends StatelessWidget {
         );
       },
     );
+  }
+
+  void Function()? _onPressed(String message, BuildContext context) {
+    return message.isEmpty
+        ? null
+        : () {
+            context.read<ChatBloc>().add(UserMessageEvent(message: message));
+            context.read<MessageCubit>().clearMessage();
+          };
   }
 }

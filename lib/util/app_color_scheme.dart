@@ -19,8 +19,8 @@ final class AppColorScheme {
         onPrimary: Colors.black,
         tertiary: Colors.white,
         surface: Color(0xFF121212), // Koyu yüzey rengi
-        secondary: Colors.tealAccent,
-        shadow: Colors.black54,
+        secondary: Color.fromARGB(255, 147, 221, 255),
+        shadow: Colors.grey,
         primaryContainer: Color(0xFF1E1E1E),
       );
 }

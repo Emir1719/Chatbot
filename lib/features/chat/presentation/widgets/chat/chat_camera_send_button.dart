@@ -11,7 +11,7 @@ class ChatCameraSendButton extends StatelessWidget {
     return BlocBuilder<MessageCubit, String>(
       builder: (context, message) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           child: IconButton(
             onPressed: () {},
             icon: Icon(
