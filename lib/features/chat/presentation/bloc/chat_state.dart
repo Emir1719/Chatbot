@@ -21,7 +21,7 @@ class ChatError extends ChatState {
 }
 
 class ChatLoaded extends ChatState {
-  final List<ChatMessage>? chats;
+  final List<Chat>? chats;
   final bool isLoading;
 
   const ChatLoaded({required this.chats, this.isLoading = false});

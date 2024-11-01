@@ -1,4 +1,4 @@
-import 'package:chatbot/features/chat/data/models/chat_message.dart';
+import 'package:chatbot/features/chat/data/models/chat.dart';
 import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:chatbot/features/chat/presentation/widgets/bubble/bubble_text.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatListView extends StatelessWidget {
   const ChatListView({super.key, required this.chats, required this.isLoading});
-  final List<ChatMessage>? chats;
+  final List<Chat>? chats;
   final bool isLoading;
 
   @override

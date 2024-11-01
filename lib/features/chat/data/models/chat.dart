@@ -4,13 +4,15 @@ import 'dart:convert';
 import 'package:chatbot/features/chat/data/models/sender.dart';
 
 class Chat {
+  final int id;
   final Sender sender;
   final String message;
 
-  Chat({required this.sender, required this.message});
+  Chat({required this.id, required this.sender, required this.message});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'sender': sender.name,
       'message': message,
     };
@@ -18,6 +20,7 @@ class Chat {
 
   factory Chat.fromMap(Map<String, dynamic> map) {
     return Chat(
+      id: map["id"] as int,
       sender: Sender.values.byName(map["sender"]),
       message: map['message'] as String,
     );

@@ -32,16 +32,29 @@ class ChatService {
   }
 
   Future deleteConversationById(int id) async {
-    await _dio.delete("/conversations/$id");
+    try {
+      await _dio.delete("/conversations/$id");
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future deleteChatById(int id) async {
-    await _dio.delete("/$id");
+    try {
+      await _dio.delete("/$id");
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future updateConversationById(int id, String title) async {
     final conv = Conversation(id: id, title: title);
-    await _dio.put("/conversations/update", data: conv.toMap());
+
+    try {
+      await _dio.put("/conversations/update", data: conv.toMap());
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future<Conversation> createConversation() async {
@@ -60,6 +73,21 @@ class ChatService {
   }
 
   Future saveChatByConversationId(int convId, String message) async {
-    await _dio.post("/save", data: {"id": convId, "user_message": message});
+    try {
+      await _dio.post("/save", data: {"id": convId, "user_message": message});
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future saveChatWithImage(int convId, String message, image) async {
+    try {
+      await _dio.post(
+        "/image",
+        data: {"id": convId, "user_message": message, "path": image},
+      );
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 }

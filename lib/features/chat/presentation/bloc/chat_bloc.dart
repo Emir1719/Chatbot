@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:chatbot/features/chat/data/datasources/chat_service.dart';
-import 'package:chatbot/features/chat/data/models/chat_message.dart';
+import 'package:chatbot/features/chat/data/models/chat.dart';
 import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
+import 'package:chatbot/util/extensions/chat_message_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  List<ChatMessage>? _chats = [];
+  List<Chat>? _mainChats = [];
   final _service = ChatService();
   int? currentConvId;
   final ConversationBloc conversationBloc;
@@ -24,7 +25,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<void> _userMessage(UserMessageEvent event, emit) async {
-    emit(ChatLoaded(chats: _chats, isLoading: true));
+    emit(ChatLoaded(chats: _mainChats, isLoading: true));
 
     try {
       // Yeni sohbet başladıysa konuşmayı otomatik oluştur
@@ -36,10 +37,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       }
 
       await _service.saveChatByConversationId(currentConvId!, event.message);
-      _chats = await _service.getChatsByConvId(currentConvId!);
+      final chats = await _service.getChatsByConvId(currentConvId!);
+      _mainChats = chats?.expand((e) => e.toChats()).toList();
 
-      emit(ChatLoaded(chats: _chats, isLoading: false));
-      // await _scroll();
+      emit(ChatLoaded(chats: _mainChats, isLoading: false));
     } catch (e) {
       emit(ChatError(message: e.toString()));
     }
@@ -50,8 +51,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     try {
       currentConvId = event.convId;
-      _chats = await _service.getChatsByConvId(event.convId);
-      emit(ChatLoaded(chats: _chats, isLoading: false));
+      final chats = await _service.getChatsByConvId(event.convId);
+      _mainChats = chats?.expand((e) => e.toChats()).toList();
+
+      emit(ChatLoaded(chats: _mainChats, isLoading: false));
 
       await _scroll();
     } catch (e) {
@@ -63,7 +66,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emit(ChatInitial());
   }
 
-  _scroll() async {
+  Future _scroll() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (scrollController.hasClients) {
         await scrollController.animateTo(
