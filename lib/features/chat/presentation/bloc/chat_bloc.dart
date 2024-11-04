@@ -22,6 +22,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<UserMessageEvent>(_userMessage);
     on<ChatLoadEvent>(_load);
     on<ChatRestart>(_restart);
+    on<UserMessageWithImageEvent>(_sendMessageWithImage);
   }
 
   Future<void> _userMessage(UserMessageEvent event, emit) async {
@@ -37,13 +38,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       }
 
       await _service.saveChatByConversationId(currentConvId!, event.message);
-      final chats = await _service.getChatsByConvId(currentConvId!);
-      _mainChats = chats?.expand((e) => e.toChats()).toList();
+      await loadMessageAsChat();
 
       emit(ChatLoaded(chats: _mainChats, isLoading: false));
     } catch (e) {
       emit(ChatError(message: e.toString()));
     }
+  }
+
+  Future<void> loadMessageAsChat() async {
+    final chats = await _service.getChatsByConvId(currentConvId!);
+    _mainChats = chats?.expand((e) => e.toChats()).toList();
   }
 
   Future<void> _load(ChatLoadEvent event, Emitter<ChatState> emit) async {
@@ -76,5 +81,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         );
       }
     });
+  }
+
+  FutureOr<void> _sendMessageWithImage(
+    UserMessageWithImageEvent event,
+    Emitter<ChatState> emit,
+  ) async {
+    emit(ChatLoaded(chats: _mainChats, isLoading: true));
+
+    if (event.imageUrl == null) {
+      emit(ChatError(message: "Resim seçilemedi"));
+      return;
+    }
+    print(event.imageUrl);
+
+    try {
+      await _service.saveChatWithImage(currentConvId!, event.message, event.imageUrl!);
+      await loadMessageAsChat();
+      emit(ChatLoaded(chats: _mainChats, isLoading: false));
+    } catch (e) {
+      emit(ChatError(message: e.toString()));
+    }
   }
 }

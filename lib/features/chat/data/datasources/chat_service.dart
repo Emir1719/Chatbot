@@ -80,12 +80,32 @@ class ChatService {
     }
   }
 
-  Future saveChatWithImage(int convId, String message, image) async {
+  Future saveChatWithImage(int convId, String message, String imagePath) async {
     try {
-      await _dio.post(
+      /*await _dio.post(
         "/image",
-        data: {"id": convId, "user_message": message, "path": image},
+        data: {"id": convId, "user_message": message, "path": imagePath},
+      );*/
+
+      FormData formData = FormData.fromMap({
+        "id": convId,
+        "user_message": message,
+        "image": await MultipartFile.fromFile(imagePath, filename: imagePath.split('/').last),
+      });
+
+      Response response = await _dio.post(
+        "/image",
+        data: formData,
+        options: Options(
+          contentType: 'multipart/form-data',
+        ),
       );
+
+      if (response.statusCode == 200) {
+        print("Resim ve mesaj başarıyla gönderildi.");
+      } else {
+        print("Hata: ${response.statusCode}");
+      }
     } on Exception catch (e) {
       throw Exception(e);
     }

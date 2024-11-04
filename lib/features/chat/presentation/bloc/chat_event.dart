@@ -17,6 +17,17 @@ class UserMessageEvent extends ChatEvent {
   List<Object> get props => [message];
 }
 
+class UserMessageWithImageEvent extends ChatEvent {
+  /// Kullanıcının modele ilettiği mesaj
+  final String message;
+  final String? imageUrl;
+
+  const UserMessageWithImageEvent({required this.message, required this.imageUrl});
+
+  @override
+  List<Object> get props => [message, imageUrl ?? ""];
+}
+
 class ChatLoadEvent extends ChatEvent {
   final int convId;
 
