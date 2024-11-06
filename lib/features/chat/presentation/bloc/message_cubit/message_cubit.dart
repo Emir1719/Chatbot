@@ -10,7 +10,7 @@ class MessageCubit extends Cubit<MessageState> {
   MessageCubit() : super(MessageState(message: "", file: null));
 
   void updateMessage(String message) {
-    emit(state.copyWith(message: message, file: state.file));
+    emit(state.copyWith(message: message.trim(), file: state.file));
   }
 
   void clearMessage() {
@@ -20,22 +20,29 @@ class MessageCubit extends Cubit<MessageState> {
 
   /// Mesaj gönderir
   void Function()? onPressed(BuildContext context) {
-    return controller.text.isEmpty || !haveFile()
+    String text = controller.text.trim();
+
+    return text.isEmpty
         ? null
         : () {
             final chat = context.read<ChatBloc>();
 
             // Dosya varsa
             if (haveFile()) {
-              chat.add(
-                  UserMessageWithImageEvent(message: controller.text, imageUrl: state.file!.path));
+              chat.add(UserMessageWithImageEvent(message: text, imageUrl: state.file!.path));
             } else {
               // Dosya yoksa
-              chat.add(UserMessageEvent(message: controller.text));
+              chat.add(UserMessageEvent(message: text));
             }
 
             clearMessage();
           };
+  }
+
+  @override
+  Future<void> close() async {
+    super.close();
+    controller.dispose();
   }
 
   /// Galeriden resim seçer
@@ -45,17 +52,12 @@ class MessageCubit extends Cubit<MessageState> {
       final file = await imageService.getImageFromGallery();
 
       emit(state.copyWith(file: file));
-      print(file?.path);
     };
   }
 
   /// Seçilen dosyayı siler
   void Function()? onDeleteFile(BuildContext context) {
-    return () {
-      print("Dosya silindi");
-      emit(state.copyWith(file: null));
-      print("State updated: ${state.file}");
-    };
+    return () => emit(state.copyWith(file: null));
   }
 
   /// Dosya varsa `true` döndürür

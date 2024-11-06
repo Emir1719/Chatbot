@@ -37,7 +37,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         conversationBloc.add(AddConversationsEvent(convId: conv.id));
       }
 
-      await _service.saveChatByConversationId(currentConvId!, event.message);
+      await _service.sendMessageByConversationId(currentConvId!, event.message);
       await loadMessageAsChat();
 
       emit(ChatLoaded(chats: _mainChats, isLoading: false));
@@ -93,10 +93,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(ChatError(message: "Resim seçilemedi"));
       return;
     }
-    print(event.imageUrl);
+
+    if (currentConvId == null) {
+      emit(ChatError(message: "currentConvId seçilemedi"));
+      return;
+    }
 
     try {
-      await _service.saveChatWithImage(currentConvId!, event.message, event.imageUrl!);
+      await _service.sendMessageByConversationId(currentConvId!, event.message, event.imageUrl);
       await loadMessageAsChat();
       emit(ChatLoaded(chats: _mainChats, isLoading: false));
     } catch (e) {

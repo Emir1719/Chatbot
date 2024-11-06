@@ -5,11 +5,17 @@ class ChatMessage {
   final int id;
   final String userMessage;
   final String modelMessage;
+  final String? modelImage;
+  final String? userImage;
+  final String? createdAt;
 
   ChatMessage({
     required this.id,
     required this.userMessage,
     required this.modelMessage,
+    this.modelImage,
+    this.userImage,
+    this.createdAt,
   });
 
   ChatMessage copyWith({
@@ -21,22 +27,30 @@ class ChatMessage {
       id: id ?? this.id,
       userMessage: userMessage ?? this.userMessage,
       modelMessage: modelMessage ?? this.modelMessage,
+      userImage: userMessage,
+      modelImage: modelMessage,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'chat_id': id,
+      'message_id': id,
       'user_message': userMessage,
       'model_message': modelMessage,
+      'model_image': modelImage,
+      'user_image': userImage,
+      'created_at': createdAt,
     };
   }
 
   factory ChatMessage.fromMap(Map<String, dynamic> map) {
     return ChatMessage(
-      id: map['chat_id'] as int,
+      id: map['message_id'] as int,
       userMessage: map['user_message'] as String,
       modelMessage: map['model_message'] as String,
+      modelImage: map['model_image'] as String?,
+      userImage: map['user_image'] as String?,
+      createdAt: map['created_at'] as String?,
     );
   }
 
@@ -44,18 +58,4 @@ class ChatMessage {
 
   factory ChatMessage.fromJson(String source) =>
       ChatMessage.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() =>
-      'ChatMessage(id: $id, userMessage: $userMessage, modelMessage: $modelMessage)';
-
-  @override
-  bool operator ==(covariant ChatMessage other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id && other.userMessage == userMessage && other.modelMessage == modelMessage;
-  }
-
-  @override
-  int get hashCode => id.hashCode ^ userMessage.hashCode ^ modelMessage.hashCode;
 }

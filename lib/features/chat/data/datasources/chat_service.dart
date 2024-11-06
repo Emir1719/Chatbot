@@ -1,7 +1,5 @@
-// ignore_for_file: avoid_print
-
-import 'package:chatbot/features/chat/data/models/chat_message.dart';
 import 'package:chatbot/features/chat/data/models/conversation.dart';
+import 'package:chatbot/features/chat/domain/entities/chat_message.dart';
 import 'package:dio/dio.dart';
 
 class ChatService {
@@ -14,9 +12,8 @@ class ChatService {
 
       return data?.map((json) => Conversation.fromMap(json)).toList();
     } catch (e) {
-      print(e);
+      throw Exception(e);
     }
-    return null;
   }
 
   Future<List<ChatMessage>?> getChatsByConvId(int convId) async {
@@ -26,9 +23,8 @@ class ChatService {
 
       return data?.map((json) => ChatMessage.fromMap(json)).toList();
     } catch (e) {
-      print(e);
+      throw Exception(e);
     }
-    return null;
   }
 
   Future deleteConversationById(int id) async {
@@ -72,40 +68,21 @@ class ChatService {
     }
   }
 
-  Future saveChatByConversationId(int convId, String message) async {
+  Future sendMessageByConversationId(int convId, String message, [String? imagePath]) async {
     try {
-      await _dio.post("/save", data: {"id": convId, "user_message": message});
-    } on Exception catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future saveChatWithImage(int convId, String message, String imagePath) async {
-    try {
-      /*await _dio.post(
-        "/image",
-        data: {"id": convId, "user_message": message, "path": imagePath},
-      );*/
-
       FormData formData = FormData.fromMap({
         "id": convId,
         "user_message": message,
-        "image": await MultipartFile.fromFile(imagePath, filename: imagePath.split('/').last),
+        "image": imagePath != null
+            ? await MultipartFile.fromFile(imagePath, filename: imagePath.split('/').last)
+            : null,
       });
 
-      Response response = await _dio.post(
-        "/image",
+      await _dio.post(
+        "/send",
         data: formData,
-        options: Options(
-          contentType: 'multipart/form-data',
-        ),
+        options: Options(contentType: 'multipart/form-data'),
       );
-
-      if (response.statusCode == 200) {
-        print("Resim ve mesaj başarıyla gönderildi.");
-      } else {
-        print("Hata: ${response.statusCode}");
-      }
     } on Exception catch (e) {
       throw Exception(e);
     }
