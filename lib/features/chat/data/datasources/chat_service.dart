@@ -1,12 +1,17 @@
 import 'package:chatbot/features/chat/data/datasources/chat_error_handler.dart';
 import 'package:chatbot/features/chat/data/models/conversation.dart';
 import 'package:chatbot/features/chat/domain/entities/chat_message.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 class ChatService {
   final Dio _dio;
 
-  ChatService(this._dio);
+  ChatService(this._dio) {
+    // Bu olmadan flask'daki session çalışmadı.
+    _dio.interceptors.add(CookieManager(CookieJar())); // Cookie yöneticisi ekleniyor
+  }
 
   Future<List<Conversation>?> getConversations() async {
     try {
@@ -83,6 +88,17 @@ class ChatService {
     }
   }
 
+  Future<void> selectModel(String modelName) async {
+    try {
+      final response = await _dio.post("/model/$modelName");
+      print(response.data["message"]);
+    } on DioException catch (e) {
+      throw ChatErrorHandler.handle(e);
+    } catch (e) {
+      throw Exception("Beklenmeyen bir hata oluştu: $e");
+    }
+  }
+
   Future sendMessageByConversationId(int convId, String message, [String? imagePath]) async {
     try {
       FormData formData = FormData.fromMap({
@@ -93,11 +109,13 @@ class ChatService {
             : null,
       });
 
-      await _dio.post(
+      final response = await _dio.post(
         "/send",
         data: formData,
         options: Options(contentType: 'multipart/form-data'),
       );
+
+      print(response.data["message"]);
     } on DioException catch (e) {
       throw ChatErrorHandler.handle(e);
     } catch (e) {

@@ -2,7 +2,8 @@ import 'package:chatbot/config/service_locator.dart';
 import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
 import 'package:chatbot/features/chat/presentation/bloc/message_cubit/message_cubit.dart';
-import 'package:chatbot/features/chat/presentation/pages/chat/chat_view.dart';
+import 'package:chatbot/features/models/presentation/bloc/models_bloc.dart';
+import 'package:chatbot/features/models/presentation/pages/models_view.dart';
 import 'package:chatbot/features/theme/presentation/cubit/theme_cubit.dart';
 import 'package:chatbot/util/app_color_scheme.dart';
 import 'package:chatbot/util/app_theme.dart';
@@ -21,6 +22,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => getIt<ModelsBloc>()),
         BlocProvider(create: (_) {
           final conversationBloc = getIt<ConversationBloc>();
           conversationBloc.add(LoadConversationsEvent());
@@ -37,7 +39,7 @@ class MainApp extends StatelessWidget {
             theme: AppTheme.theme(AppColorScheme.light),
             darkTheme: AppTheme.theme(AppColorScheme.dark),
             themeMode: state.mode,
-            home: const ChatView(),
+            home: const ModelsView(),
           );
         },
       ),
