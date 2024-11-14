@@ -1,5 +1,4 @@
-import 'package:google_generative_ai/google_generative_ai.dart';
-
+/*
 class GeminiService {
   final String _apiKey = 'AIzaSyD97SknZ-EF3t4CGSJZfCvSwLse0n7PDAM';
   final String _sysPrompt = "Sen bilgisayar teknolojileri hakkında bilgi veren bir asistansın.";
@@ -35,3 +34,4 @@ class GeminiService {
     return response.text;
   }
 }
+*/

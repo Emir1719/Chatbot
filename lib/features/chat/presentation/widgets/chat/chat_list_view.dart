@@ -13,9 +13,9 @@ class ChatListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       controller: context.read<ChatBloc>().scrollController,
-      separatorBuilder: (context, index) => const SizedBox(height: 15),
+      separatorBuilder: (context, index) => const SizedBox(height: 20),
       itemCount: (chats?.length ?? 0) + (isLoading ? 1 : 0),
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(10),
       itemBuilder: (context, index) {
         if (index < (chats?.length ?? 0)) {
           return BubbleText(chat: chats?[index]);

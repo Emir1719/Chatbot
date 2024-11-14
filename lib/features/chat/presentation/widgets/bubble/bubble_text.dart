@@ -19,12 +19,13 @@ class BubbleText extends StatelessWidget {
       children: [
         isSendUser ? Spacer() : Image.asset(AppImage.chatbot, height: 40),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            ImageParser.build(chat?.image),
+            ImageParser.build(context, chat?.image),
             BubbleSpecialThree(
               text: chat?.message ?? "",
-              constraints: BoxConstraints(maxWidth: context.width(0.60)),
               color: context.color.secondary,
+              constraints: BoxConstraints(maxWidth: context.width(0.65)),
               tail: true,
               isSender: isSendUser,
               textStyle: context.text.bodyMedium!.copyWith(

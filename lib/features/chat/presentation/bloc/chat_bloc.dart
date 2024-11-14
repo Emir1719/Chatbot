@@ -94,9 +94,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       return;
     }
 
+    // Yeni sohbet başladıysa konuşmayı otomatik oluştur
     if (currentConvId == null) {
-      emit(ChatError(message: "currentConvId seçilemedi"));
-      return;
+      final conv = await _service.createConversation();
+      currentConvId = conv.id;
+
+      conversationBloc.add(AddConversationsEvent(convId: conv.id));
     }
 
     try {
