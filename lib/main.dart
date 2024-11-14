@@ -1,3 +1,4 @@
+import 'package:chatbot/config/service_locator.dart';
 import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
 import 'package:chatbot/features/chat/presentation/bloc/message_cubit/message_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  setupLocator();
   runApp(const MainApp());
 }
 
@@ -19,10 +21,14 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ConversationBloc()..add(LoadConversationsEvent())),
-        BlocProvider(create: (context) => ChatBloc(context.read<ConversationBloc>())),
-        BlocProvider(create: (context) => MessageCubit()),
-        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (_) {
+          final conversationBloc = getIt<ConversationBloc>();
+          conversationBloc.add(LoadConversationsEvent());
+          return conversationBloc;
+        }),
+        BlocProvider(create: (_) => getIt<ChatBloc>()),
+        BlocProvider(create: (_) => getIt<MessageCubit>()),
+        BlocProvider(create: (_) => getIt<ThemeCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {

@@ -1,9 +1,12 @@
+import 'package:chatbot/features/chat/data/datasources/chat_error_handler.dart';
 import 'package:chatbot/features/chat/data/models/conversation.dart';
 import 'package:chatbot/features/chat/domain/entities/chat_message.dart';
 import 'package:dio/dio.dart';
 
 class ChatService {
-  final _dio = Dio(BaseOptions(baseUrl: "http://10.0.2.2:5000/chat/"));
+  final Dio _dio;
+
+  ChatService(this._dio);
 
   Future<List<Conversation>?> getConversations() async {
     try {
@@ -11,8 +14,10 @@ class ChatService {
       List<dynamic>? data = response.data["data"]; // JSON'daki 'data' listesini alıyoruz.
 
       return data?.map((json) => Conversation.fromMap(json)).toList();
+    } on DioException catch (e) {
+      throw ChatErrorHandler.handle(e);
     } catch (e) {
-      throw Exception(e);
+      throw Exception("Beklenmeyen bir hata oluştu: $e");
     }
   }
 
@@ -22,24 +27,30 @@ class ChatService {
       List<dynamic>? data = response.data["data"];
 
       return data?.map((json) => ChatMessage.fromMap(json)).toList();
+    } on DioException catch (e) {
+      throw ChatErrorHandler.handle(e);
     } catch (e) {
-      throw Exception(e);
+      throw Exception("Beklenmeyen bir hata oluştu: $e");
     }
   }
 
   Future deleteConversationById(int id) async {
     try {
       await _dio.delete("/conversations/$id");
-    } on Exception catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      throw ChatErrorHandler.handle(e);
+    } catch (e) {
+      throw Exception("Beklenmeyen bir hata oluştu: $e");
     }
   }
 
   Future deleteChatById(int id) async {
     try {
       await _dio.delete("/$id");
-    } on Exception catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      throw ChatErrorHandler.handle(e);
+    } catch (e) {
+      throw Exception("Beklenmeyen bir hata oluştu: $e");
     }
   }
 
@@ -48,8 +59,10 @@ class ChatService {
 
     try {
       await _dio.put("/conversations/update", data: conv.toMap());
-    } on Exception catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      throw ChatErrorHandler.handle(e);
+    } catch (e) {
+      throw Exception("Beklenmeyen bir hata oluştu: $e");
     }
   }
 
@@ -63,8 +76,10 @@ class ChatService {
         return conv;
       }
       throw Exception("Conversation null geldi");
+    } on DioException catch (e) {
+      throw ChatErrorHandler.handle(e);
     } catch (e) {
-      throw Exception(e);
+      throw Exception("Beklenmeyen bir hata oluştu: $e");
     }
   }
 
@@ -83,8 +98,10 @@ class ChatService {
         data: formData,
         options: Options(contentType: 'multipart/form-data'),
       );
-    } on Exception catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      throw ChatErrorHandler.handle(e);
+    } catch (e) {
+      throw Exception("Beklenmeyen bir hata oluştu: $e");
     }
   }
 }

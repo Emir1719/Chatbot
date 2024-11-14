@@ -1,6 +1,7 @@
 import 'package:chatbot/features/chat/data/models/chat.dart';
 import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:chatbot/features/chat/presentation/widgets/bubble/bubble_text.dart';
+import 'package:chatbot/features/chat/presentation/widgets/common/app_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +22,7 @@ class ChatListView extends StatelessWidget {
           return BubbleText(chat: chats?[index]);
         } else if (isLoading) {
           // Yüklenme simgesini sadece son mesajın altına ekler
-          return const Center(child: CircularProgressIndicator());
+          return AppLoading();
         }
         return Container(); // Diğer durumlar için boş
       },

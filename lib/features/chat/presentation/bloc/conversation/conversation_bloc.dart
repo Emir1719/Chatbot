@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:chatbot/config/service_locator.dart';
 import 'package:chatbot/features/chat/data/datasources/chat_service.dart';
 import 'package:chatbot/features/chat/data/models/conversation.dart';
 import 'package:equatable/equatable.dart';
@@ -9,7 +10,7 @@ part 'conversation_event.dart';
 part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-  final _service = ChatService();
+  final _service = getIt<ChatService>();
   List<Conversation>? conversations;
 
   ConversationBloc() : super(ConversationInitial()) {

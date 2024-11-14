@@ -1,9 +1,14 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:chatbot/config/service_locator.dart';
 import 'package:chatbot/features/chat/data/datasources/chat_service.dart';
 import 'package:chatbot/features/chat/data/models/chat.dart';
 import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
+import 'package:chatbot/features/chat/presentation/widgets/chat/chat_list_view.dart';
+import 'package:chatbot/features/chat/presentation/widgets/chat/chatbot_greeting.dart';
+import 'package:chatbot/features/chat/presentation/widgets/common/app_error_view.dart';
+import 'package:chatbot/features/chat/presentation/widgets/common/app_loading.dart';
 import 'package:chatbot/util/extensions/chat_message_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +17,11 @@ part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  List<Chat>? _mainChats = [];
-  final _service = ChatService();
-  int? currentConvId;
+  final _service = getIt<ChatService>();
   final ConversationBloc conversationBloc;
   final ScrollController scrollController = ScrollController();
+  List<Chat>? _mainChats = [];
+  int? currentConvId;
 
   ChatBloc(this.conversationBloc) : super(ChatInitial()) {
     on<UserMessageEvent>(_userMessage);
@@ -46,6 +51,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
+  /// Message nesnesi Chat nesnesine dönüştürülüyor.
   Future<void> loadMessageAsChat() async {
     final chats = await _service.getChatsByConvId(currentConvId!);
     _mainChats = chats?.expand((e) => e.toChats()).toList();
