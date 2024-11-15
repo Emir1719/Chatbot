@@ -9,4 +9,7 @@ extension ContextExtension on BuildContext {
   Size get size => MediaQuery.of(this).size;
   double height([double scale = 1]) => size.height * scale;
   double width([double scale = 1]) => size.width * scale;
+
+  // orientation
+  Orientation get orientation => MediaQuery.of(this).orientation;
 }

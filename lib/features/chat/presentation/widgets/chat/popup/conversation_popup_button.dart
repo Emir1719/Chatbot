@@ -8,8 +8,8 @@ class ConversationPopupButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<IConvPopup> menuItems = [
-      DeletePopup(),
       EditPopup(),
+      DeletePopup(),
     ];
 
     return PopupMenuButton<IConvPopup>(

@@ -6,7 +6,7 @@ import 'package:chatbot/features/chat/data/datasources/chat_service.dart';
 import 'package:chatbot/features/chat/data/models/chat.dart';
 import 'package:chatbot/features/chat/presentation/bloc/conversation/conversation_bloc.dart';
 import 'package:chatbot/features/chat/presentation/widgets/chat/chat_list_view.dart';
-import 'package:chatbot/features/chat/presentation/widgets/chat/chatbot_greeting.dart';
+import 'package:chatbot/features/chat/presentation/widgets/chat/greeting/chatbot_greeting.dart';
 import 'package:chatbot/features/chat/presentation/widgets/common/app_error_view.dart';
 import 'package:chatbot/features/chat/presentation/widgets/common/app_loading.dart';
 import 'package:chatbot/util/extensions/chat_message_extension.dart';
@@ -55,6 +55,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Future<void> loadMessageAsChat() async {
     final chats = await _service.getChatsByConvId(currentConvId!);
     _mainChats = chats?.expand((e) => e.toChats()).toList();
+  }
+
+  void changeConvId(int id) {
+    currentConvId = id;
+    _mainChats = [];
   }
 
   Future<void> _load(ChatLoadEvent event, Emitter<ChatState> emit) async {

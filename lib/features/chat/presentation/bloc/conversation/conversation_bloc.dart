@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:chatbot/config/service_locator.dart';
 import 'package:chatbot/features/chat/data/datasources/chat_service.dart';
 import 'package:chatbot/features/chat/data/models/conversation.dart';
+import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'conversation_event.dart';
@@ -67,6 +68,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     try {
       final conv = await _service.createConversation();
       conversations?.add(conv);
+      getIt<ChatBloc>().changeConvId(conv.id);
       _sort();
 
       emit(ConversationLoaded(conversations: conversations));
