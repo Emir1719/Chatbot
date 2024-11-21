@@ -13,7 +13,7 @@ class ChatbotConvStarters extends StatelessWidget {
     // Konuşma başlatıcıları her model için dinamik olarak listelenir
     final starterWidgets = model!.starters
         .map((starter) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 15),
               child: ConvStarter(message: starter),
             ))
         .toList();

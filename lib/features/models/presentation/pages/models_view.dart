@@ -1,4 +1,8 @@
-import 'package:chatbot/features/models/data/models/chatbots.dart';
+import 'package:chatbot/features/models/data/models/chatbots/creative_writer.dart';
+import 'package:chatbot/features/models/data/models/chatbots/fashion_expert.dart';
+import 'package:chatbot/features/models/data/models/chatbots/friendly_guide.dart';
+import 'package:chatbot/features/models/data/models/chatbots/technology_expert.dart';
+import 'package:chatbot/features/models/data/models/i_chatbot.dart';
 import 'package:chatbot/features/models/presentation/widgets/model_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +11,17 @@ class ModelsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final models = Chatbots.values;
+    List<IChatbot> chatbots = [
+      TechnologyExpert(),
+      CreativeWriter(),
+      FriendlyGuide(),
+      FashionExpert(),
+    ];
 
     return Scaffold(
       appBar: AppBar(title: const Text('AI Assistants')),
       body: GridView.builder(
-        itemCount: models.length,
+        itemCount: chatbots.length,
         padding: EdgeInsets.all(20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -21,7 +30,7 @@ class ModelsView extends StatelessWidget {
           mainAxisSpacing: 10,
         ),
         itemBuilder: (context, index) {
-          var model = models[index];
+          var model = chatbots[index];
 
           return ModelListItem(model: model);
         },

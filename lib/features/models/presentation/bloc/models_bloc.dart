@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:chatbot/config/service_locator.dart';
 import 'package:chatbot/features/chat/data/datasources/chat_service.dart';
 import 'package:chatbot/features/chat/presentation/bloc/chat_bloc.dart';
-import 'package:chatbot/features/models/data/models/chatbots.dart';
+import 'package:chatbot/features/models/data/models/i_chatbot.dart';
 import 'package:equatable/equatable.dart';
 
 part 'models_event.dart';
@@ -12,7 +12,7 @@ part 'models_state.dart';
 
 class ModelsBloc extends Bloc<ModelsEvent, ModelsState> {
   final _chatService = getIt<ChatService>();
-  Chatbots? model;
+  IChatbot? model;
 
   ModelsBloc() : super(ModelsInitial()) {
     on<SelectModelEvent>(_selectModel);
@@ -24,7 +24,7 @@ class ModelsBloc extends Bloc<ModelsEvent, ModelsState> {
     try {
       model = event.model;
 
-      await _chatService.selectModel(model!.modelName);
+      await _chatService.selectModel(model!.id);
 
       getIt<ChatBloc>().add(ChatRestart());
 

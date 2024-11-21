@@ -12,7 +12,7 @@ class ModelsInitial extends ModelsState {}
 class ModelsLoading extends ModelsState {}
 
 class ModelsLoaded extends ModelsState {
-  final Chatbots model;
+  final IChatbot model;
 
   const ModelsLoaded({required this.model});
 

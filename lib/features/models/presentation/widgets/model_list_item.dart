@@ -1,5 +1,5 @@
 import 'package:chatbot/features/chat/presentation/pages/chat/chat_view.dart';
-import 'package:chatbot/features/models/data/models/chatbots.dart';
+import 'package:chatbot/features/models/data/models/i_chatbot.dart';
 import 'package:chatbot/features/models/domain/extensions/model_extension.dart';
 import 'package:chatbot/features/models/presentation/bloc/models_bloc.dart';
 import 'package:chatbot/features/models/presentation/widgets/model_image.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ModelListItem extends StatelessWidget {
   const ModelListItem({super.key, required this.model});
-  final Chatbots model;
+  final IChatbot model;
 
   @override
   Widget build(BuildContext context) {

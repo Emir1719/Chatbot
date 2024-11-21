@@ -8,7 +8,7 @@ abstract class ModelsEvent extends Equatable {
 }
 
 class SelectModelEvent extends ModelsEvent {
-  final Chatbots model;
+  final IChatbot model;
 
   const SelectModelEvent({required this.model});
 

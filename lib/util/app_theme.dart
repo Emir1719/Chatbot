@@ -33,6 +33,7 @@ final class AppTheme {
     return AppBarTheme(
       backgroundColor: colorScheme.surface,
       titleTextStyle: textTheme.titleLarge,
+      surfaceTintColor: colorScheme.surface,
       centerTitle: true,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: colorScheme.surface,
