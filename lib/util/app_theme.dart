@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Singleton deseni uygulanmış tema sınıfı
 final class AppTheme {
@@ -27,10 +28,18 @@ final class AppTheme {
   }
 
   static AppBarTheme _appBarTheme(ColorScheme colorScheme, TextTheme textTheme) {
+    final isLight = colorScheme.onPrimary == Colors.white;
+
     return AppBarTheme(
       backgroundColor: colorScheme.surface,
       titleTextStyle: textTheme.titleLarge,
       centerTitle: true,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: colorScheme.surface,
+        systemNavigationBarColor: colorScheme.primaryContainer,
+        systemNavigationBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
+        statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
+      ),
     );
   }
 

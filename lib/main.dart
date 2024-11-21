@@ -10,8 +10,9 @@ import 'package:chatbot/util/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  setupLocator();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupLocator();
   runApp(const MainApp());
 }
 

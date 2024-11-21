@@ -15,7 +15,7 @@ class ConvStarter extends StatelessWidget {
       },
       child: Container(
         width: context.width(0.9),
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         decoration: BoxDecoration(
           color: context.color.primaryContainer,
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -24,7 +24,7 @@ class ConvStarter extends StatelessWidget {
           message,
           textAlign: TextAlign.center,
           style: context.text.bodyMedium,
-          maxLines: 2,
+          maxLines: 3,
         ),
       ),
     );

@@ -13,6 +13,7 @@ final class AppColorScheme {
         secondary: Colors.blue,
         shadow: Colors.grey,
         primaryContainer: Colors.grey.shade100,
+        onPrimaryContainer: Colors.grey.shade200,
         error: Colors.red,
       );
 
@@ -23,6 +24,7 @@ final class AppColorScheme {
         secondary: Color.fromARGB(255, 147, 221, 255),
         shadow: Colors.grey,
         primaryContainer: Color(0xFF1E1E1E),
+        onPrimaryContainer: Color.fromARGB(255, 60, 60, 60),
         error: Color.fromARGB(255, 255, 42, 27),
       );
 }

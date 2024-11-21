@@ -12,10 +12,7 @@ class ModelImage extends StatelessWidget {
     return CircleAvatar(
       backgroundColor: context.color.primaryContainer,
       radius: 34,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Image.asset(model.toPath(), fit: BoxFit.contain),
-      ),
+      child: Image.asset(model.toPath(), fit: BoxFit.contain, height: 55),
     );
   }
 }
